@@ -1,0 +1,11 @@
+**/__pycache__
+**/*.pyc
+.venv
+.git
+*.db
+web/node_modules
+web/.next
+models/data
+models/artifacts
+edge/captures
+edge/reports

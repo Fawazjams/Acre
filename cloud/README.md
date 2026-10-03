@@ -42,3 +42,17 @@ psql "$ACRE_DATABASE_URL" -f schema.sql     # or let init_db() create tables
 
 Set `ANTHROPIC_API_KEY` to use Claude (`claude-sonnet-4-6`). Without a key, a
 deterministic offline summary is returned so the demo never hard-fails.
+
+## Docker and CI
+
+```bash
+docker build -f cloud/Dockerfile -t acre-cloud .          # run from the repo root
+docker run -p 8000:8000 -e ACRE_DATABASE_URL=sqlite:///./acre_cloud.db acre-cloud
+```
+
+GitHub Actions (`.github/workflows/ci.yml`) lints, runs `cloud/tests` (sync
+idempotency, validation, health, map) and builds the image on every push and PR.
+
+```bash
+pip install -r cloud/requirements-dev.txt && pytest cloud/tests -q
+```
